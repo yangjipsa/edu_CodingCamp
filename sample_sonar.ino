@@ -1,5 +1,6 @@
 // board : wemos d1 r1
 // senser : HC-SR04
+// pin assign : VCC-5V, GND-GND, TRIG-D1, ECHO-D2
 
 #define TRIG_PIN D1 // HC-SR04의 TRIG 핀이 연결된 핀 (WeMos D1 R1 보드에서는 D1)
 #define ECHO_PIN D2 // HC-SR04의 ECHO 핀이 연결된 핀 (WeMos D1 R1 보드에서는 D2)
