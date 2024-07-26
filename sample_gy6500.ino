@@ -1,7 +1,7 @@
 // board : wemos d1 r1
 // Sensor : gy6500 (Acceleration/Gyro Sensor)
 // library : mpu6050
-
+// pin assign : VCC-3.3V, GND-GND, SCL-D1, SDA-D2
 
 #include <Wire.h>
 #include <MPU6050.h>
