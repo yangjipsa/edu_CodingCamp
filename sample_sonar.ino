@@ -1,13 +1,13 @@
 // board : wemos d1 r1
 // senser : HC-SR04
-// pin assign : VCC-5V, GND-GND, TRIG-D1, ECHO-D2
+// pin assign : VCC-5V, GND-GND, TRIG-D7, ECHO-D6
 
-#define TRIG_PIN D1 // HC-SR04의 TRIG 핀이 연결된 핀 (WeMos D1 R1 보드에서는 D1)
-#define ECHO_PIN D2 // HC-SR04의 ECHO 핀이 연결된 핀 (WeMos D1 R1 보드에서는 D2)
+#define TRIG_PIN D7 // HC-SR04의 TRIG 핀이 연결된 핀 (WeMos D1 R1 보드에서는 D7)
+#define ECHO_PIN D6 // HC-SR04의 ECHO 핀이 연결된 핀 (WeMos D1 R1 보드에서는 D6)
 
 void setup() 
 {
-  Serial.begin(9600); // 시리얼 통신 속도를 115200으로 설정
+  Serial.begin(9600); // 시리얼 통신 속도를 9600 설정
   pinMode(TRIG_PIN, OUTPUT); // TRIG 핀을 출력 모드로 설정
   pinMode(ECHO_PIN, INPUT);  // ECHO 핀을 입력 모드로 설정
 }
@@ -35,5 +35,5 @@ void loop()
   Serial.print(distance);
   Serial.println(" cm");
 
-  delay(1000); // 1초 대기
+  delay(500); // 1초 대기
 }
