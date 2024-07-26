@@ -1,11 +1,12 @@
 // board : wemos d1 r1
-// library : 
+// library : LiquidCrystal I2C by Frank de Brabander (ver 1.1.2)
+// pin assign : GND-GND, VCC-5V, SDA-D4, SCL-D3
 
 #include <LiquidCrystal_I2C.h>
 #include <Wire.h>
 
 //Input I2C address after check address at the first parameter
-LiquidCrystal_I2C lcd(0x27, 16, 2); 
+LiquidCrystal_I2C lcd(0x27, 16, 2); // 0x27 of 0x3F
 
 void setup() {
   lcd.init();
