@@ -3,7 +3,7 @@
 #define pinLED1 D4
 
 bool cState1 = false; // current state of sw1
-bool lState2 = false; // last state of sw2
+bool lState1 = false; // last state of sw1
 
 bool valLED1 = false;
 
