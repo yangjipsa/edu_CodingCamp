@@ -1,39 +1,38 @@
 // board : wemos d1 r1
 // sensor : DHT11
-// library : DHT sensor library
-// pin assign : 
+// library : DHT11 by Dhruba Saha (ver 2.1.0)
+// pin assign : S-D4, V-3.3V, G-GND
 
-#include <DHT.h>
+#include <DHT11.h>
 
-#define DHTPIN D4     // DHT11 센서의 데이터 핀이 연결된 핀 (WeMos D1 R1 보드에서는 D4)
-#define DHTTYPE DHT11 // DHT11 센서 유형
+#define DHTPIN D4
 
-DHT dht(DHTPIN, DHTTYPE);
+DHT11 dht11(DHTPIN);
 
-void setup() {
-  Serial.begin(9600); // 시리얼 통신 속도를 115200으로 설정
-  dht.begin(); // DHT 센서를 초기화
+void setup() 
+{
+  Serial.begin(9600); // 시리얼 통신 속도를 9600
 }
 
-void loop() {
-  // 센서로부터 데이터를 읽기 전에 약간의 지연이 필요합니다.
+void loop() 
+{
   delay(2000);
 
-  float humidity = dht.readHumidity();    // 습도를 읽음
-  float temperature = dht.readTemperature(); // 섭씨 온도를 읽음
+  int temperature = 0;
+  int humidity = 0;
 
-  // 데이터가 제대로 읽혔는지 확인
-  if (isnan(humidity) || isnan(temperature)) {
-    Serial.println("DHT 센서로부터 데이터를 읽을 수 없습니다.");
-  }
-  else
+  int result = dht11.readTemperatureHumidity(temperature, humidity);
+
+  if (!result) 
   {
-    // 온도와 습도를 시리얼 모니터에 출력
-    Serial.print("습도: ");
-    Serial.print(humidity);
-    Serial.print(" %\t");
-    Serial.print("온도: ");
-    Serial.print(temperature);
-    Serial.println(" *C");
+      Serial.print("Temperature: ");
+      Serial.print(temperature);
+      Serial.print(" °C\tHumidity: ");
+      Serial.print(humidity);
+      Serial.println(" %");
+  } 
+  else 
+  {
+      Serial.println(DHT11::getErrorString(result));
   }
 }
