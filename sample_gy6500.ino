@@ -1,54 +1,46 @@
 // board : wemos d1 r1
 // Sensor : gy6500 (Acceleration/Gyro Sensor)
-// library : mpu6050
-// pin assign : VCC-3.3V, GND-GND, SCL-D1, SDA-D2
+// library : mpu6050 by Electronic Cats
+// pin assign : VCC-3.3V, GND-GND, SCL-D3, SDA-D4
 
-#include <Wire.h>
+#include <I2Cdev.h>
 #include <MPU6050.h>
+#include <Wire.h>
 
-MPU6050 mpu;
+MPU6050 accelgyro;
+
+int16_t ax, ay, az;
+int16_t gx, gy, gz;
 
 void setup() 
 {
-  Serial.begin(9600); // 시리얼 통신 속도를 115200으로 설정
-  Wire.begin(D1, D2);   // I2C 통신을 위한 SDA, SCL 핀 설정 (D1: SCL, D2: SDA)
+  Wire.begin();
 
-  Serial.println("MPU6050 초기화 중...");
+  Serial.begin(9600);
 
-  while(!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G)) {
-    Serial.println("MPU6050 연결 실패. 다시 시도 중...");
-    delay(1000);
-  }
+  Serial.println("Initializing I2C devices...");
+  accelgyro.initialize();
 
-  Serial.println("MPU6050 연결 성공!");
-
-  // 센서 초기화
-  mpu.calibrateGyro();
-  mpu.setThreshold(3);
+  Serial.println("Testing device connections...");
+  Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
 }
 
 void loop() 
 {
-  Vector rawAccel = mpu.readRawAccel();
-  Vector normAccel = mpu.readNormalizeAccel();
-  Vector rawGyro = mpu.readRawGyro();
-  Vector normGyro = mpu.readNormalizeGyro();
+  // read raw accel/gyro measurements from device
+  accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-  // 가속도 데이터 출력
-  Serial.print("가속도 X: ");
-  Serial.print(normAccel.XAxis);
-  Serial.print(" Y: ");
-  Serial.print(normAccel.YAxis);
-  Serial.print(" Z: ");
-  Serial.println(normAccel.ZAxis);
+  // these methods (and a few others) are also available
+  //accelgyro.getAcceleration(&ax, &ay, &az);
+  //accelgyro.getRotation(&gx, &gy, &gz);
 
-  // 자이로 데이터 출력
-  Serial.print("자이로 X: ");
-  Serial.print(normGyro.XAxis);
-  Serial.print(" Y: ");
-  Serial.print(normGyro.YAxis);
-  Serial.print(" Z: ");
-  Serial.println(normGyro.ZAxis);
+  Serial.print("a/g:\t");
+  Serial.print(ax); Serial.print("\t");
+  Serial.print(ay); Serial.print("\t");
+  Serial.print(az); Serial.print("\t");
+  Serial.print(gx); Serial.print("\t");
+  Serial.print(gy); Serial.print("\t");
+  Serial.println(gz);
 
-  delay(1000); // 1초 대기
+  delay(50);
 }
